@@ -54,4 +54,8 @@ public class GroupOfCards
         size = givenSize;
     }
     
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
+    }
+    
 }//end class
