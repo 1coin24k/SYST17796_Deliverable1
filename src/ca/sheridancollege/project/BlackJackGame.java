@@ -5,6 +5,8 @@
  */
 package ca.sheridancollege.project;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author YutingLi
@@ -13,34 +15,79 @@ public class BlackJackGame extends Game {
     public BlackJackGame(String givenName) {
         super(givenName);
     }
+    private int dealerScore;
+    private int playerScore;
 
     @Override
     public void play() {
-        BlackJackPlayer player1 = new BlackJackPlayer("SpiderMan");
-        BlackJackPlayer player2 = new BlackJackPlayer("IronMan");
+        BlackJackGroupOfCards cardsOnTable = new BlackJackGroupOfCards(52);
+        BlackJackPlayer dealer = new BlackJackPlayer("Dealer");
+        dealer.setCardsOnTable(cardsOnTable.showCards());
+        BlackJackPlayer player = new BlackJackPlayer("Player");
+        player.setCardsOnTable(cardsOnTable.showCards());
+        getPlayers().add(dealer);
+        getPlayers().add(player);
 
 
-        BlackJackGroupOfCards groupOfCards = new BlackJackGroupOfCards(52);
+        System.out.println("Dealer draw card ...");
+        dealer.play();
+        System.out.println("Dealer draw card completed");
+        System.out.println("");
+        System.out.println("Player draw card ...");
+        player.play();
+        System.out.println("Player draw card completed");
 
-        player1.play();
-        player2.play();
-
+        System.out.println("==========================");
         declareWinner();
-        resetScore();
 
     }
-    
-    
 
-    /**
-     *
-     */
     @Override
     public void declareWinner() {
+        ArrayList<Player> players = getPlayers();
+        BlackJackPlayer dealer = (BlackJackPlayer)players.get(0);
+        BlackJackPlayer player = (BlackJackPlayer) players.get(1);
+        if (player.getTotalPoint() < dealer.getTotalPoint()){
+            System.out.println("Player Lose");
+            int score = getDealerScore();
+            setDealerScore(++score);
+        } else if (player.getTotalPoint() > 21){
+            System.out.println("Player Lose");
+            int score = getDealerScore();
+            setDealerScore(++score);
+        }
+        else if (player.getTotalPoint() > dealer.getTotalPoint()){
+            System.out.println("Player Win");
+            int score = getPlayerScore();
+            setPlayerScore(++score);
+        }
+        else if (player.getTotalPoint() == dealer.getTotalPoint()){
+            System.out.println("Tie");
+        }
 
+        dealer.showCardsOnHand();
+        player.showCardsOnHand();
     }
+
+
 
     private void resetScore() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public int getDealerScore() {
+        return dealerScore;
+    }
+
+    public void setDealerScore(int dealerScore) {
+        this.dealerScore = dealerScore;
+    }
+
+    public int getPlayerScore() {
+        return playerScore;
+    }
+
+    public void setPlayerScore(int playerScore) {
+        this.playerScore = playerScore;
     }
 }
