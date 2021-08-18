@@ -5,14 +5,19 @@
  */
 package ca.sheridancollege.project;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  *
  * @author YutingLi
  */
 public class BlackJackPlayer extends Player {
-    
-    private int score;
-   
+    private ArrayList<Card> cardsOnTable ;
+    private ArrayList<BlackJackCard> cardsOnHand = new ArrayList<>();
+    private int totalPoint ;
+
     /**
      * A constructor that allows you to set the player's unique ID
      *
@@ -22,40 +27,88 @@ public class BlackJackPlayer extends Player {
         super(name);
     }
 
-    /**
-     *
-     */
-    @Override
     public void play(){
+        Scanner scanner = new Scanner(System.in);
+        if(cardsOnHand.size() ==0 ){
+            drawTwoCard();
+            setTotalPoint(checkPoint());
+        }
+        if("Player".equals(getPlayerID())){
+            if (cardsOnTable.size()>0 ){
+                String userSelect = "2";
+                while (checkPoint() < 21 && "2".equals(userSelect)){
+                    showCardsOnHand();
+                    System.out.print("Do you want Stand[1] or Hit[2], please choose 1 or 2 : ");
+                    userSelect = scanner.next();
+                    if ("2".equals(userSelect)){
+                        hit();
+                    }
+                }
+                setTotalPoint(checkPoint());
+            }
+        }
     }
 
-	public void win() {
-		// TODO - implement BlackJackPlayer.win
-	//	throw new UnsupportedOperationException();
-                score += 1;
-	}
 
-	public void loss() {
-		// TODO - implement BlackJackPlayer.loss
-	//	throw new UnsupportedOperationException();
-	if(score>0)
-        score -= 1;
-            else
-            score = 0;
+    private int checkPoint(){
+        List<BlackJackCard> aceCardOnHand = new ArrayList<>();
+        int totalPoint = 0;
+        for (BlackJackCard card : cardsOnHand){
+            totalPoint += card.getValue();
+            if (card.getValue() == 11){
+                aceCardOnHand.add(card);
+            }
         }
 
-	public void resetScore() {
-		// TODO - implement BlackJackPlayer.resetScore
-	//	throw new UnsupportedOperationException();
-	score = 0;
+        for(BlackJackCard card : aceCardOnHand) {
+            if(totalPoint > 21) {
+                totalPoint = totalPoint - 10;
+            }
         }
+        return totalPoint;
+    }
 
-	public void HitCard(Card card) {
-		// TODO - implement BlackJackPlayer.HitCard
-	//	throw new UnsupportedOperationException();
-	
+    private void hit(){
+        if(cardsOnTable.size()>0){
+            BlackJackCard blackJackCard = (BlackJackCard) cardsOnTable.remove(0);
+            cardsOnHand.add(blackJackCard);
         }
+    }
 
+    private void drawTwoCard(){
+        hit();
+        hit();
+    }
 
+    public ArrayList<Card> getCardsOnTable() {
+        return cardsOnTable;
+    }
 
+    public void setCardsOnTable(ArrayList<Card> cardsOnTable) {
+        this.cardsOnTable = cardsOnTable;
+    }
+
+    public int getTotalPoint() {
+        return totalPoint;
+    }
+
+    public void setTotalPoint(int totalPoint) {
+        this.totalPoint = totalPoint;
+    }
+
+    public ArrayList<BlackJackCard> getCardsOnHand() {
+        return cardsOnHand;
+    }
+
+    public void setCardsOnHand(ArrayList<BlackJackCard> cardsOnHand) {
+        this.cardsOnHand = cardsOnHand;
+    }
+
+    public void showCardsOnHand () {
+        System.out.println(getPlayerID()+" cards on hand, total point is ["+checkPoint()+"]");
+        for(BlackJackCard card : getCardsOnHand()){
+            System.out.println("["+card.getSuit()+"] "+card.getValue());
+        }
+        System.out.println("====================== ");
+    }
 }
