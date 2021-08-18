@@ -12,52 +12,20 @@ import java.util.Scanner;
  * @author YutingLi
  */
 public class Main {
-
     public static void main(String[] args) {
-//        BlackJackGame blackJackGame = new BlackJackGame("BlackJack");
-//        blackJackGame.play();
-        int score = 0;
-        Scanner input = new Scanner(System.in);
-        
-        
-        
-       BlackJackGroupOfCards deck = new BlackJackGroupOfCards(1);
-       deck.getFullDeck();
-       deck.shuffle();
- //       System.out.println(deck);
-        System.out.println("____________________");
-        
-        BlackJackGroupOfCards playerCards = new BlackJackGroupOfCards(1);
-        BlackJackGroupOfCards dealerCards = new BlackJackGroupOfCards(1);
-       
-       //loop to take the players input
-       int choice = 0;
-        do{
-         System.out.println("Welcome to BlackJack Game");
-           System.out.println("Please enter your choice?");
-           System.out.println("1. Start Game\n2. Your Score\n3Exit");
-           choice =input.nextInt();
-           
-           if(choice == 1){
-               playerCards.draw(playerCards);
-                playerCards.draw(playerCards);
-                dealerCards.draw(dealerCards);
-                dealerCards.draw(dealerCards);
-                
-                System.out.println("Your hand: ");
-                System.out.println(playerCards.toString());
-                
-           } 
-           
-           if(choice == 2){
-               
-           }
-           
-           
-
-         } while(choice != 3);
- }
-    
+        BlackJackGame blackJackGame = new BlackJackGame("BlackJack");
+        boolean playAgain = true;
+        while(playAgain){
+            blackJackGame.play();
+            System.out.print("Dealer Score ["+blackJackGame.getDealerScore()+"], "
+                    + "Player Score ["+blackJackGame.getPlayerScore()+"], Do you want to play again ? [Y/N]");
+            Scanner scanner = new Scanner(System.in);
+            String userSelect = scanner.next();
+            if (!"Y".equalsIgnoreCase(userSelect)) {
+                playAgain = false;
+            }
+        }
+    }
 }
     
 
