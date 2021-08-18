@@ -5,60 +5,45 @@
  */
 package ca.sheridancollege.project;
 
-import java.util.Scanner;
-
 /**
  *
  * @author YutingLi
  */
-public class Main {
+public class BlackJackCard extends Card{
+    private String suit; //clubs, spades, diamonds, hearts
+    private int value;//1-13
 
-    public static void main(String[] args) {
-//        BlackJackGame blackJackGame = new BlackJackGame("BlackJack");
-//        blackJackGame.play();
-        int score = 0;
-        Scanner input = new Scanner(System.in);
-        
-        
-        
-       BlackJackGroupOfCards deck = new BlackJackGroupOfCards(1);
-       deck.getFullDeck();
-       deck.shuffle();
- //       System.out.println(deck);
-        System.out.println("____________________");
-        
-        BlackJackGroupOfCards playerCards = new BlackJackGroupOfCards(1);
-        BlackJackGroupOfCards dealerCards = new BlackJackGroupOfCards(1);
-       
-       //loop to take the players input
-       int choice = 0;
-        do{
-         System.out.println("Welcome to BlackJack Game");
-           System.out.println("Please enter your choice?");
-           System.out.println("1. Start Game\n2. Your Score\n3Exit");
-           choice =input.nextInt();
-           
-           if(choice == 1){
-               playerCards.draw(playerCards);
-                playerCards.draw(playerCards);
-                dealerCards.draw(dealerCards);
-                dealerCards.draw(dealerCards);
-                
-                System.out.println("Your hand: ");
-                System.out.println(playerCards.toString());
-                
-           } 
-           
-           if(choice == 2){
-               
-           }
-           
-           
+    public static final String [] SUITS = {"Hearts", "Diamonds", "Spades", "Clubs"};
+    /**
+     * @return the suit
+     */
+    public String getSuit() {
+        return suit;
+    }
 
-         } while(choice != 3);
- }
+    /**
+     * @param suit the suit to set
+     */
+    public void setSuit(String suit) {
+        this.suit = suit;
+    }
+
+    /**
+     * @return the value
+     */
+    public int getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public String toString(){
+        return this.suit+"_"+this.value; 
+    }
     
 }
-    
-
-
